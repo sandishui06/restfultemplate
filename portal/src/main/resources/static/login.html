@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="`">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <script src="jquery-1.11.3.js"></script>
+</head>
+<body>
+    <table class="table">
+        <tr>
+            <td>用户名</td>
+            <td><input type="text" id="username"></td>
+        </tr>
+        <tr>
+            <td>密码</td>
+            <td><input type="text" id="password"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button id="btn">登录</button>
+                <button id="btn1">注册</button>
+            </td>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+        $(function() {
+           $('#btn').click(function() {
+               $.get('user/login?username=' + $('#username').val() + '&password=' + $('#password').val(), function(data) {
+                  if(!data.success) {
+                      alert(data.message);
+                  }
+                  else {
+                      window.location.href = "success.html";
+                  }
+               });
+           });
+
+            $('#btn1').click(function() {
+                var user = {
+                        username: $('#username').val(),
+                        password: $('#password').val()
+                };
+                $.ajax({
+                    type:'POST',
+                    url:'user/regist',
+                    dataType:"json",
+                    contentType:"application/json",
+                    data:JSON.stringify(user),
+                    success:function(data){
+                        if(!data.success) {
+                            alert(data.message);
+                        }
+                        else {
+                            alert("注册成功！");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
